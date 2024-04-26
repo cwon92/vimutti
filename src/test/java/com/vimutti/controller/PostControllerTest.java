@@ -31,6 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -45,10 +48,13 @@ class PostControllerTest {
     @DisplayName("/posts 요청시 title 필수")
     void test() throws Exception {
         //given
-        PostDTO post = new PostDTO(1, "user1", "title1", "content1",
-                "type1", null, null, 1);
+        PostDTO post = PostDTO.builder()
+                .userId("user1")
+                .title("title1")
+                .content("content1")
+                .type("type1")
+                .build();
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(post);
 
         System.out.println(json);
@@ -56,7 +62,8 @@ class PostControllerTest {
         //expected
         mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
+                        .content(json)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("title1"))
                 .andDo(print()); //서머리를 남기는 메서드
@@ -66,18 +73,21 @@ class PostControllerTest {
     @Test
     @DisplayName("/posts 요청시 db에 저장")
     void postTest() throws Exception {
+        //given
+        PostDTO post = PostDTO.builder()
+                .userId("user1")
+                .title("title1")
+                .content("content1")
+                .type("type1")
+                .build();
+
+        String json = objectMapper.writeValueAsString(post);
         //when
         mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"userId\": \"user1\", " +
-                                "\"title\": \"song\", \"content\": \"chiwon\", " +
-                                "\"type\": \"normal\"}"))
+                        .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("song"))
-                //.andExpect(jsonPath("$.userId").value("user1"))
-                //.andExpect(jsonPath("$.content").value("chiwon"))
-                //.andExpect(jsonPath("$.type").value("normal"))
-                //.andExpect(jsonPath("$.isPresented").value("1"))
+                .andExpect(jsonPath("$.title").value("title1"))
                 .andDo(print()); //서머리를 남기는 메서드
 
         //then
@@ -85,7 +95,7 @@ class PostControllerTest {
 
         //check
         PostEntity postEntity = postRepository.findAll().get(0);
-        assertEquals("song", postEntity.getTitle());
-        assertEquals("chiwon", postEntity.getContent());
+        assertEquals("title1", postEntity.getTitle());
+        assertEquals("content1", postEntity.getContent());
     }
 }

@@ -31,6 +31,7 @@ public class PostEntity {
     @ColumnDefault("1")
     private int isPresented;
 
+    @Builder
     public PostEntity(String userId, String title, String content, String type){
         this.userId = userId;
         this.title = title;

@@ -1,6 +1,7 @@
 package com.vimutti.controller;
 
 import com.vimutti.domain.PostDTO;
+import com.vimutti.domain.PostEntity;
 import com.vimutti.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public PostDTO post(@RequestBody @Valid PostDTO post){
-        postService.write(post);
-        return post;
+    public PostEntity post(@RequestBody @Valid PostDTO post){
+        return postService.write(post);
+
     }
 
 

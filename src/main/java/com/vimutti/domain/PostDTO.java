@@ -2,10 +2,7 @@ package com.vimutti.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -13,6 +10,7 @@ import java.util.Date;
 @Setter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostDTO {
     private long postId;
 
@@ -34,7 +32,19 @@ public class PostDTO {
     @NotNull
     private int isPresented;
 
+    @Builder
+    public PostDTO(String userId, String title, String content, String type){
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.type = type;
+    }
 
-
+    public PostDTO changeTitle(String title){
+        return PostDTO.builder()
+                .title(title)
+                .content(this.content)
+                .build();
+    }
 
 }
