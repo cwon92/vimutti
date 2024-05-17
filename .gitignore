@@ -24,7 +24,7 @@ bin/
 *.ipr
 out/
 !**/src/main/**/out/
-!**/src/test/**/out/
+!**/src/test/**/out/git
 
 .idea/**/IgnoreCon.java
 
@@ -37,3 +37,6 @@ out/
 
 ### VS Code ###
 .vscode/
+IgnoreCon.java
+IgnoreCon.java
+Uni.java
