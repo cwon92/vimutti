@@ -1,4 +1,4 @@
 package com.vimutti.controller;
 
-public class TestController {
+public class TestConfig {
 }
