@@ -65,7 +65,6 @@ class PostControllerTest {
                         .content(json)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("title1"))
                 .andDo(print()); //서머리를 남기는 메서드
 
     }
@@ -87,7 +86,6 @@ class PostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("title1"))
                 .andDo(print()); //서머리를 남기는 메서드
 
         //then
@@ -98,4 +96,31 @@ class PostControllerTest {
         assertEquals("title1", postEntity.getTitle());
         assertEquals("content1", postEntity.getContent());
     }
+
+    @Test
+    @DisplayName("글 1개 조회")
+    void testGetPost() throws Exception {
+        //given
+        PostEntity postEntity = PostEntity.builder()
+                .userId("user1")
+                .title("title1")
+                .content("content1")
+                .type("type1")
+                .build();
+
+        PostEntity post = postRepository.save(postEntity);
+
+        //expected
+        mockMvc.perform(get("/posts/{postId}", post.getPostId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(post.getTitle()))
+                .andExpect(jsonPath("$.userId").value(post.getUserId()))
+                .andExpect(jsonPath("$.content").value(post.getContent()))
+                .andDo(print());
+
+        //then
+    }
+
 }

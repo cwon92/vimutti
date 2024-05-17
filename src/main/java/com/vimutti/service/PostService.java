@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -15,7 +17,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public PostEntity write(PostDTO postDTO){
+    public void write(PostDTO postDTO){
 
         PostEntity postEntity = PostEntity.builder()
                 .userId(postDTO.getUserId())
@@ -24,7 +26,14 @@ public class PostService {
                 .type(postDTO.getType())
                 .build();
 
-        return postRepository.save(postEntity);
+        postRepository.save(postEntity);
+    }
+
+    public PostEntity getPost(Long postId){
+        PostEntity postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글 ID입니다."));
+
+        return postEntity;
     }
 
 }
