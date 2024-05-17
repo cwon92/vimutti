@@ -1,4 +1,4 @@
 package com.vimutti.controller;
 
-public class TestConfig {
+public class IgnoreCon {
 }
