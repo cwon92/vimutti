@@ -38,5 +38,5 @@ Uni
 
 ### VS Code ###
 .vscode/
-IgnoreCon.java
-Uni.java
+application.properties
+

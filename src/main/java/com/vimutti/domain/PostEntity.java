@@ -38,4 +38,6 @@ public class PostEntity {
         this.content = content;
         this.type = type;
     }
+
+
 }

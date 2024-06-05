@@ -2,10 +2,14 @@ package com.vimutti.controller;
 
 import com.vimutti.domain.PostDTO;
 import com.vimutti.domain.PostEntity;
+import com.vimutti.request.PostSearch;
+import com.vimutti.response.PostResponse;
 import com.vimutti.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +31,19 @@ public class PostController {
         postService.write(post);
     }
 
+    //단건조회
     @GetMapping("/posts/{postId}")
-    public PostEntity getOnePost(@PathVariable( name = "postId") Long postId){
-        PostEntity postEntity = postService.getPost(postId);
-        return postEntity;
+    public PostResponse getOnePost(@PathVariable( name = "postId") Long postId){
+        PostResponse postResponse = postService.getPost(postId);
+        return postResponse;
     }
+
+    //여러개조회
+    @GetMapping("/posts")
+    public List<PostResponse> getPostList(@ModelAttribute PostSearch postSearch){
+
+        return postService.getList(postSearch);
+    }
+
 
 }
