@@ -3,6 +3,7 @@ package com.vimutti.service;
 import com.vimutti.domain.PostDTO;
 import com.vimutti.domain.PostEntity;
 import com.vimutti.repository.PostRepository;
+import com.vimutti.request.PostEdit;
 import com.vimutti.request.PostSearch;
 import com.vimutti.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
@@ -111,6 +112,26 @@ class PostServiceTest {
         assertEquals("title29", posts.get(0).getTitle());
 
 
+    }
+
+    @Test
+    @DisplayName("글 삭제")
+    void testDelete(){
+        //given
+        PostEntity postEntity = PostEntity.builder()
+                            .userId("editedUserId")
+                            .title("editedTitle")
+                            .content("editedContent")
+                            .type("editedType")
+                .build();
+
+        postRepository.save(postEntity);
+
+        //when
+        postService.delete(postEntity.getPostId());
+
+        //then
+        assertEquals(0, postRepository.count());
     }
 
 }

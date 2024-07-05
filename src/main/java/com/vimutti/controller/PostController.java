@@ -2,6 +2,7 @@ package com.vimutti.controller;
 
 import com.vimutti.domain.PostDTO;
 import com.vimutti.domain.PostEntity;
+import com.vimutti.request.PostEdit;
 import com.vimutti.request.PostSearch;
 import com.vimutti.response.PostResponse;
 import com.vimutti.service.PostService;
@@ -44,6 +45,19 @@ public class PostController {
 
         return postService.getList(postSearch);
     }
+
+    //수정
+    @PatchMapping("/posts/{postId}")
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit req){
+        postService.edit(postId, req);
+    }
+
+    //삭제
+    @DeleteMapping("/posts/{postId}")
+    public void delete(@PathVariable Long postId){
+        postService.delete(postId);
+    }
+
 
 
 }

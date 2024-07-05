@@ -1,9 +1,6 @@
 package com.vimutti.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,12 +19,15 @@ public class PostEntity {
     private Long postId;
 
     private String userId;
-
     private String title;
+
+    @Lob
     private String content;
+
     private String type;
     private Date createDate;
     private Date updateDate;
+
     @ColumnDefault("1")
     private int isPresented;
 
@@ -38,6 +38,12 @@ public class PostEntity {
         this.content = content;
         this.type = type;
     }
+
+    public void editPost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 
 
 }

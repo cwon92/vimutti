@@ -1,8 +1,10 @@
 package com.vimutti.service;
 
 import com.vimutti.domain.PostDTO;
+import com.vimutti.domain.PostEditor;
 import com.vimutti.domain.PostEntity;
 import com.vimutti.repository.PostRepository;
+import com.vimutti.request.PostEdit;
 import com.vimutti.request.PostSearch;
 import com.vimutti.response.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,5 +64,22 @@ public class PostService {
                             .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void edit(Long postId, PostEdit postEdit) {
+        PostEntity postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        //PostEntity.editPost(postEdit.getTitle(), postEdit.getContent());
+    }
+
+    public void delete(Long postId){
+        PostEntity postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        postRepository.delete(postEntity);
+
+
     }
 }
